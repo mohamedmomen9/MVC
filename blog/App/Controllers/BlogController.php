@@ -24,10 +24,10 @@ class BlogController
 
     public function create()
     {
-        // if (!isset($_SESSION['username'])) {
-        //     header("location: login");
-        //     exit();
-        // }
+        if (!isset($_SESSION['username'])) {
+            header("location: login");
+            exit();
+        }
         require_once APP_ROOT . '/views/createBlog.php';
     }
 
