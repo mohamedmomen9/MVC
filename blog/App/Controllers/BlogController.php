@@ -3,24 +3,31 @@
 namespace App\Controllers;
 
 use App\Models\Blog;
+use App\Models\User;
 
 class BlogController
 {
-    public function index(){
+    public function __construct()
+    {
+        session_start();
+    }
+
+    public function index()
+    {
         $blog = new Blog();
         $blog->all();
 
-        require_once APP_ROOT . '/views/editBlog.php';
+        include_once APP_ROOT . '/views/editBlog.php';
     }
 
     // Show the blog attributes based on the id.
-	public function showAction(int $id)
-	{
+    public function showAction(int $id)
+    {
         $blog = new Blog();
         $blog->read($id);
 
-        require_once APP_ROOT . '/views/blog.php';
-	}
+        include_once APP_ROOT . '/views/blog.php';
+    }
 
     public function create()
     {
@@ -28,26 +35,35 @@ class BlogController
             header("location: login");
             exit();
         }
-        require_once APP_ROOT . '/views/createBlog.php';
+        include_once APP_ROOT . '/views/createBlog.php';
     }
 
-    public function edit(){
+    public function edit()
+    {
         $id = $_GET['id'];
         $blog = new Blog();
         $blog->read($id);
 
-        require_once APP_ROOT . '/views/editBlog.php';
+        include_once APP_ROOT . '/views/editBlog.php';
     }
 
-    public function updte(int $id,  $request){
+    public function update(int $id,  $request)
+    {
         $blog = new Blog();
         $blog->update($id, $request->all);
 
-        require_once APP_ROOT . '/views/blog.php';
+        include_once APP_ROOT . '/views/blog.php';
     }
 
-    public function store(){
+    public function store()
+    {
         $blog = new Blog();
-        
+        $blog->setTitle($_POST['title']);
+        $blog->setImage($_POST['image']);
+        $blog->setText($_POST['text']);
+        $blog->setUser($_POST['user']);
+        $blog->create();
+
+        header('Location: http://localhost/check24/blog/home');
     }
 }

@@ -27,7 +27,7 @@ $methodName = isset($urlParts[1]) ? $urlParts[1] : $defaultMethod;
 $controllerFile = 'App/Controllers/' . $controllerName . '.php';
 
 if (file_exists($controllerFile)) {
-    include($controllerFile);
+    include $controllerFile;
     $controllerName = "App\\Controllers\\" . $controllerName;
 
     // Check if the controller class exists
